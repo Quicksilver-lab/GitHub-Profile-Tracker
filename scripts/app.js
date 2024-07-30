@@ -13,7 +13,7 @@ function fetchGitHubData(username) {
     fetch(userUrl)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('User data request failed');
             }
             return response.json();
         })
@@ -35,7 +35,7 @@ function fetchReposData(reposUrl, username) {
     fetch(reposUrl)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Repository data request failed');
             }
             return response.json();
         })
@@ -51,7 +51,7 @@ function fetchReposData(reposUrl, username) {
 
             const commitPromises = repoNames.map(repoName => {
                 return fetch(`https://api.github.com/repos/${username}/${repoName}/commits`)
-                    .then(response => response.json())
+                    .then(response => response.ok ? response.json() : [])
                     .catch(error => {
                         console.error('Error fetching commits:', error);
                         return [];
@@ -89,3 +89,30 @@ function displayErrorMessage(message) {
     errorMessageElement.innerText = message;
     errorMessageElement.style.display = 'block';
 }
+
+function clearPreviousData() {
+    document.getElementById('profile-info').innerHTML = '';
+    document.getElementById('repoChart').remove(); // Remove old canvas
+    document.getElementById('activityChart').remove(); // Remove old canvas
+
+    const chartsContainer = document.querySelector('.charts');
+    chartsContainer.innerHTML = `
+        <div class="chart-container">
+            <canvas id="repoChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="activityChart"></canvas>
+        </div>
+    `;
+
+    document.querySelector('#repoTable tbody').innerHTML = '';
+}
+
+document.getElementById('username-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    clearPreviousData(); // Clear old data
+    const username = document.getElementById('github-username').value.trim();
+    if (validateUsername(username)) {
+        fetchGitHubData(username);
+    }
+});
