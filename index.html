@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Profile Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="assets/logo.png" alt="Logo" class="logo">
+            <h1>GitHub Profile Tracker</h1>
+            <form id="username-form">
+                <input type="text" id="github-username" placeholder="Enter GitHub Username" required>
+                <button type="submit">Track Profile</button>
+            </form>
+            <div id="error-message" class="error-message"></div>
+        </header>
+        <main id="profile-content">
+            <div class="profile-info" id="profile-info">
+                <!-- Profile info will be displayed here -->
+            </div>
+            <div class="charts">
+                <div class="chart-container">
+                    <canvas id="repoChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+            <div class="table-container">
+                <h3>Popular Repositories</h3>
+                <table id="repoTable">
+                    <thead>
+                        <tr>
+                            <th>Repository Name</th>
+                            <th>Stars</th>
+                            <th>Forks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Repositories data will be filled here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>Created with ❤️ by Quicksilver</p>
+    </footer>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/charts.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
